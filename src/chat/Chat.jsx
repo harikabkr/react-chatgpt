@@ -7,7 +7,8 @@ import Button from "@mui/joy/Button";
 
 import { Message } from "./Message";
 import { chatService } from "../services/chatService";
-
+ 
+// import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
 import "./Chat.css";
 
 const DEFAULTVALUE = '';
@@ -17,7 +18,13 @@ export const Chat = () => {
   const [chatReply, setChatReply] = useState(""); // change to array to store more data
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
+  useEffect(() => {
+    // scroll to the bottom of the messages container when messages change
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+ 
   const handleClick = () => {
     setLoading(true);
     const inputMessage = {
@@ -28,6 +35,7 @@ export const Chat = () => {
     setMessages(messagesList);
     fetchResponseFromGPT(messagesList);
     setUserInput('');
+    
   }
   const fetchResponseFromGPT = async (messages) => {
     console.log("MAKE API CALL TO FETCH RESPONSE FOR THE CHAT: ", userInput);
@@ -42,32 +50,6 @@ export const Chat = () => {
     };
     setMessages([...messages, replyObj]);
   };
-  // const messages = [
-  //     {
-  //       id: 1,
-  //       sender: 'John',
-  //       time: '2:30pm',
-  //       body: 'Hey there!'
-  //     },
-  //     {
-  //       id: 2,
-  //       sender: 'Jane',
-  //       time: '2:35pm',
-  //       body: 'Hi John!'
-  //     },
-  //     {
-  //       id: 3,
-  //       sender: 'John',
-  //       time: '2:40pm',
-  //       body: 'How are you doing?'
-  //     },
-  //     {
-  //       id: 4,
-  //       sender: 'Jane',
-  //       time: '2:45pm',
-  //       body: 'I\'m doing great, thanks for asking!'
-  //     }
-  //   ];
   return (
     <>
       <div>
@@ -100,6 +82,7 @@ export const Chat = () => {
                     const { chatReplyy } = e.target; 
                     setChatReply(chatReply);
                     }}/> */}
+        <div ref={messagesEndRef} />
         </div>
         <div className="chat-input">
           <Textarea
@@ -132,6 +115,7 @@ export const Chat = () => {
                 color="primary"
                 variant="solid"
                 onClick={handleClick}
+
               >
                 Send
               </Button>
@@ -139,6 +123,7 @@ export const Chat = () => {
           </div>
         </div>
       </div>
+
     </>
   );
 };

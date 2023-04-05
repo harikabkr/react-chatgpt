@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Chat } from './chat/Chat';
+import { Chat } from './Chat/Chat';
 //import {configuration} from 'openai'
 //import { useState } from 'react';
 //import openai from 'openai';
@@ -17,9 +17,13 @@ function App() {
   // console.log('-->> ', key);
   // console.log('Returned response - ', response);
     return (
+      
     <Container className = 'mt-3'>
+      
       <Chat/>
+      
     </Container>
+    
   );
   }
 
